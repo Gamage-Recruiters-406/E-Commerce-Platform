@@ -1,4 +1,8 @@
 import express from 'express';
+import dotenv from 'dotenv';
+import connectDB from './config/db.js';
+import colors from 'colors';
+import userRoutes from './routes/userRoutes.js';
 
 const app = express();
 
@@ -9,9 +13,13 @@ dotenv.config();
 connectDB();
 
 // Middlewares
-
+app.use(express.json())
 
 // Routes
+app.use("/api/v1/users", userRoutes);
+
+
+
 
 
 app.get("/", (req, res) => {
