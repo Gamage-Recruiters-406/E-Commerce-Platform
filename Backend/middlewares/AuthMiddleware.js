@@ -25,29 +25,21 @@ export const requiredSignIn = async(req, res, next) => {
 };
 
 
+// Middleware to check if user is a Manager (role = 1)
+export const isCustomer = (req, res, next) => {
 
-
-
-
-
-
-
-
-// Middleware to check if user is a Manager (role = 2)
-export const isManager = (req, res, next) => {
-
-    if (req.user.role !== 2) {
+    if (req.user.role !== 1) {
         return res.status(403).json({ 
             success: false, 
-            message: "Access denied. Manager role required." 
+            message: "Access denied. token required" 
         });
     }
     next();
 };
 
-// Middleware to check if user is an Admin (role = 3)
+// Middleware to check if user is an Admin (role = 2)
 export const isAdmin = (req, res, next) => {
-    if (req.user.role !== 3) {
+    if (req.user.role !== 2) {
         return res.status(403).json({ 
             success: false, 
             message: "Access denied. Admin role required." 
@@ -56,24 +48,13 @@ export const isAdmin = (req, res, next) => {
     next();
 };
 
-// Middleware to check if user is Manager or Admin (role = 2 or 3)
-export const isManagerOrAdmin = (req, res, next) => {
+// Middleware to check if user is customer or Admin (role = 1 or 2)
+export const isCustomerOrAdmin = (req, res, next) => {
 
-    if (req.user.role !== 2 && req.user.role !== 3) {
+    if (req.user.role !== 1 && req.user.role !== 2) {
         return res.status(403).json({ 
             success: false, 
             message: "Access denied. Manager or Admin role required.." 
-        });
-    }
-    next();
-};
-
-// Middleware to check if user is a Employee (role = 1)
-export const isEmployee = (req, res, next) => {
-    if (req.user.role !== 1) {
-        return res.status(403).json({ 
-            success: false, 
-            message: "Access denied. Employee role required." 
         });
     }
     next();

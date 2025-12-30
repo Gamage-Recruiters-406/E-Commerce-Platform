@@ -1,9 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
-import colors from 'colors';
 import userRoutes from './routes/userRoutes.js';
-
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 const app = express();
 
 // Configure environment
@@ -13,7 +13,9 @@ dotenv.config();
 connectDB();
 
 // Middlewares
+app.use(cors());
 app.use(express.json())
+app.use(cookieParser());
 
 // Routes
 app.use("/api/v1/users", userRoutes);
