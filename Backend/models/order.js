@@ -1,81 +1,64 @@
 import mongoose from "mongoose";
 
-const orderItemSchema = new mongoose.Schema({
-    product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-        required: true
-    },
-    productName: {
-        type: String,
-        required: true
-    },
-    quantity: {
-        type: Number,
-        required: true,
-        min: 1
-    },
-    price: {
-        type: Number,
-        required: true,
-        min: 0
-    },
-    subtotal: {
-        type: Number,
-        required: true,
-        min: 0
-    }
-});
-
 const orderSchema = new mongoose.Schema({
-    orderNumber: {
-        type: String,
-        required: true,
-        unique: true
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'User is required']
     },
-    customer: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    items: [orderItemSchema],
+    orderItems: [
+      {
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Product',
+          required: true
+        },
+        name: {
+          type: String,
+          required: true
+        },
+        quantity: {
+          type: Number,
+          required: true,
+          min: [1, 'Quantity must be at least 1']
+        },
+        price: {
+          type: Number,
+          required: true,
+          min: [0, 'Price cannot be negative']
+        }
+      }
+    ],
     totalAmount: {
-        type: Number,
-        required: true,
-        min: 0
+      type: Number,
+      required: true,
+      min: [0, 'Total amount cannot be negative']
     },
     status: {
-        type: String,
-        enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
-        default: 'pending'
+      type: String,
+      enum: ['pending', 'processing', 'completed', 'cancelled'],
+      default: 'pending'
     },
     shippingAddress: {
-        street: String,
-        city: String,
-        state: String,
-        zipCode: String,
-        country: String
+      address: String,
+      city: String,
+      postalCode: String,
+      country: String
     },
     paymentMethod: {
-        type: String,
-        enum: ['credit_card', 'debit_card', 'paypal', 'cash_on_delivery'],
-        default: 'cash_on_delivery'
+      type: String,
+      default: 'cash'
     },
-    notes: String
+    paymentStatus: {
+      type: String,
+      enum: ['pending', 'paid', 'failed'],
+      default: 'pending'
+    }
 }, {timestamps: true});
 
-// Indexes for faster queries
-orderSchema.index({
-    customer: 1,
-    createdAt: -1
-});
+// Indexes for better query performance
+orderSchema.index({ user: 1, createdAt: -1 });
+orderSchema.index({ status: 1 });
+orderSchema.index({ createdAt: -1 });
 
-orderSchema.index({
-    orderNumber: 1
-});
-
-orderSchema.index({
-    status: 1
-});
-
-export default mongoose.model("Order", orderSchema);
+module.exports = mongoose.model('Order', orderSchema);
