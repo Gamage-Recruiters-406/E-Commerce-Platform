@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import express from 'express';
 import {
     getMyOrders,
@@ -16,3 +17,15 @@ router.get('/my-orders', protect, getMyOrders);
 router.get('/admin/orders', protect, adminOnly, getAllOrders);
 
 export default router;
+=======
+import express from "express";
+import { createOrder } from "../controllers/orderController.js";
+import { requiredSignIn } from "../middlewares/AuthMiddleware.js";
+
+const router = express.Router();
+
+// Customer routes - requires authentication
+router.post("/orders", requiredSignIn, createOrder);
+
+export default router;
+>>>>>>> f3b1daa99ce0f48efcad72faee81407bf8c7e992
