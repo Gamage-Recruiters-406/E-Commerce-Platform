@@ -9,7 +9,6 @@ export const createOrder = async (req, res) => {
 
   try {
     const { orderItems } = req.body;
-
     // Validation
     if (!orderItems || !Array.isArray(orderItems) || orderItems.length === 0) {
       await session.abortTransaction();
