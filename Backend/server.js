@@ -1,11 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
-import cors from "cors";
-import cookieParser from "cookie-parser";
 import orderRoutes from "./routes/orderRoutes.js";
+import orderHistoryRoutes from "./routes/orderHistoryRoutes.js";
 const app = express();
 
 // Configure environment
@@ -22,7 +23,8 @@ app.use(cookieParser());
 // Routes
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/products", productRoutes);
-app.use("/api/v1/orders",orderRoutes)
+app.use("/api/v1/orderHistory", orderHistoryRoutes);
+app.use("/api/v1/orders",orderRoutes);
 
 app.get("/", (req, res) => {
   res.send({
