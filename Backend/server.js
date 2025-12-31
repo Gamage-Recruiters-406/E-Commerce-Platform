@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
+import orderHistoryRoutes from './routes/orderHistoryRoutes.js'
 import cors from "cors";
 import cookieParser from "cookie-parser";
 const app = express();
@@ -21,6 +22,7 @@ app.use(cookieParser());
 // Routes
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/products", productRoutes);
+app.use("/api/v1/orders", orderHistoryRoutes);
 
 app.get("/", (req, res) => {
   res.send({
