@@ -20,8 +20,11 @@ A robust RESTful API built with Node.js, Express, and MongoDB for managing an e-
 
 - **Order Management**
   - Create orders with multiple products
-  - Order status tracking
-  - User-specific order history
+  - Order status tracking (pending, processing, completed, cancelled)
+  - Comprehensive order history with filtering and pagination
+  - User-specific order history with statistics
+  - Admin dashboard for all orders
+  - Date range filtering and sorting options
   - Automatic total price calculation
 
 ## 🛠️ Tech Stack
@@ -32,6 +35,7 @@ A robust RESTful API built with Node.js, Express, and MongoDB for managing an e-
 - **Authentication:** JWT (JSON Web Tokens)
 - **Password Hashing:** bcrypt
 - **Validation:** express-validator
+- **File Upload:** multer
 - **CORS:** Cross-Origin Resource Sharing enabled
 - **Environment Variables:** dotenv
 
@@ -108,28 +112,36 @@ The server will start on `http://localhost:8085`
 ```
 Backend/
 ├── config/
-│   └── db.js                 # Database configuration
+│   └── db.js                      # Database configuration
 ├── controllers/
-│   ├── userController.js     # User business logic
-│   ├── productController.js  # Product business logic
-│   └── orderController.js    # Order business logic
+│   ├── userController.js          # User business logic
+│   ├── productController.js       # Product business logic
+│   ├── orderController.js         # Order business logic
+│   └── orderHistoryController.js  # Order history & analytics
 ├── middlewares/
-│   ├── AuthMiddleware.js     # Authentication & Authorization
-│   └── validationMiddleware.js # Input validation
+│   ├── AuthMiddleware.js          # Authentication & Authorization
+│   └── validationMiddleware.js    # Input validation
 ├── models/
-│   ├── user.js              # User schema
-│   ├── product.js           # Product schema
-│   └── order.js             # Order schema
+│   ├── user.js                    # User schema
+│   ├── product.js                 # Product schema
+│   ├── order.js                   # Order schema
+│   └── orderHistory.js            # Order history schema
 ├── routes/
-│   ├── userRoutes.js        # User endpoints
-│   ├── productRoutes.js     # Product endpoints
-│   └── orderRoutes.js       # Order endpoints
-├── .env                     # Environment variables
-├── package.json             # Dependencies and scripts
-└── server.js                # Application entry point
+│   ├── userRoutes.js              # User endpoints
+│   ├── productRoutes.js           # Product endpoints
+│   ├── orderRoutes.js             # Order endpoints
+│   └── orderHistoryRoutes.js      # Order history endpoints
+├── .env                           # Environment variables
+├── .gitignore                     # Git ignore file
+├── package.json                   # Dependencies and scripts
+└── server.js                      # Application entry point
 ```
 
 ## 🔌 API Endpoints
+
+## Postman URL
+
+https://www.postman.com/aviation-geoscientist-71375974/gamage/collection/32083296-f442a40c-1398-42a5-9a57-67f92bdd66de?action=share&source=copy-link&creator=32083296
 
 ### User Routes (`/api/v1/users`)
 
@@ -205,6 +217,34 @@ Backend/
   "status": "Pending"
 }
 ```
+
+### Order History Routes (`/api/v1/orderHistory`)
+
+| Method | Endpoint        | Description              | Access        |
+| ------ | --------------- | ------------------------ | ------------- |
+| GET    | `/my-orders`    | Get user's order history | Authenticated |
+| GET    | `/admin/orders` | Get all orders (Admin)   | Admin         |
+
+**Query Parameters for Order History:**
+
+- `page` - Page number (default: 1)
+- `limit` - Items per page (default: 10)
+- `status` - Filter by status (pending, processing, completed, cancelled)
+- `fromDate` - Filter orders from date (ISO format)
+- `toDate` - Filter orders to date (ISO format)
+- `sortBy` - Sort field:direction (e.g., createdAt:desc, totalAmount:asc)
+
+**Example Request:**
+
+```
+GET /api/v1/orderHistory/my-orders?page=1&limit=10&status=completed&sortBy=createdAt:desc
+```
+
+**Response includes:**
+
+- Order list with populated product details
+- Pagination metadata (total, pages, current page)
+- User statistics (total orders, total spent, order counts by status)
 
 ## 🔐 Authentication
 
