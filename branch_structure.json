@@ -1,0 +1,36 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "Backend",
+    "Developing",
+    "Order-History",
+    "Order_History",
+    "Product-Management",
+    "User_Roles_&_Authentication",
+    "main",
+    "new-Order-History",
+    "order-processing"
+  ],
+  "parent": {
+    "Backend": "main",
+    "Developing": "main",
+    "Order-History": "main",
+    "Order_History": "main",
+    "Product-Management": "main",
+    "User_Roles_&_Authentication": "main",
+    "main": null,
+    "new-Order-History": "main",
+    "order-processing": "main"
+  },
+  "order": [
+    "main",
+    "Backend",
+    "Developing",
+    "Order-History",
+    "Order_History",
+    "Product-Management",
+    "User_Roles_&_Authentication",
+    "new-Order-History",
+    "order-processing"
+  ]
+}
