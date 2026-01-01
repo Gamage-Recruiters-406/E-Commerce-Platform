@@ -4,18 +4,9 @@ import JWT from "jsonwebtoken";
 
 //register user
 export const createUser = async(req, res) => {
-    console.log("xxxxxxxxxx",req.body);
     try {
         const {firstname, lastname, role, phone, email, password } = req.body;
            
-
-        //validate
-        // if(!firstname || !lastname || !phone || !email || !password){
-        //     return res.status(400).json({
-        //         success: false,
-        //         message: "Please fill all fields"
-        //     })
-        // }
 
         //check if user exists
         const existingUser = await User.findOne({email});
@@ -60,14 +51,6 @@ export const createUser = async(req, res) => {
 export const loginUser = async(req, res) => {
     try {
         const {email, password } = req.body;
-
-        //validate
-        // if(!email || !password){
-        //     return res.status(400).json({
-        //         success: false,
-        //         message: "Please fill all fields"
-        //     })
-        // }
 
         const user = await User.findOne({email});
         if(!user){

@@ -8,8 +8,7 @@ const userRouter = express.Router();
 userRouter.post("/register", validateUserRegister, createUser);
 userRouter.post("/login", validateUserLogin, loginUser);
 
-//userRoutes.get("/getAllUsersq", getAllUsers);
-//userRoutes.get("/getUserById:id", getUserById);
+
 
 
 
