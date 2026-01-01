@@ -6,6 +6,7 @@ import productRoutes from "./routes/productRoutes.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import orderRoutes from "./routes/orderRoutes.js";
+import orderHistoryRoutes from "./routes/orderHistoryRoutes.js";
 const app = express();
 
 // Configure environment
@@ -22,7 +23,8 @@ app.use(cookieParser());
 // Routes
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/products", productRoutes);
-app.use("/api/v1/order",orderRoutes)
+app.use("/api/v1/order",orderRoutes);
+app.use("/api/v1/orderHistory", orderHistoryRoutes);
 
 app.get("/", (req, res) => {
   res.send({
