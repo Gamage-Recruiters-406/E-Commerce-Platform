@@ -319,8 +319,6 @@ curl -X POST http://localhost:8085/api/v1/users/register \
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
-
 ## 👨‍💻 Author
 
 **Gamage Recruiters**
