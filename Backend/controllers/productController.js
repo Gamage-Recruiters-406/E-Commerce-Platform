@@ -6,9 +6,9 @@ export const createProductController = async (req, res) => {
     const { name, description, price, quantity, category } = req.body;
 
     // Basic Validation
-    if (!name || !description || !price || !quantity || !category) {
-      return res.status(400).send({ error: "All fields are required" });
-    }
+    // if (!name || !description || !price || !quantity || !category) {
+    //   return res.status(400).send({ error: "All fields are required" });
+    // }
 
     const product = new Product({
       name,
