@@ -10,12 +10,12 @@ export const createUser = async(req, res) => {
            
 
         //validate
-        if(!firstname || !lastname || !phone || !email || !password){
-            return res.status(400).json({
-                success: false,
-                message: "Please fill all fields"
-            })
-        }
+        // if(!firstname || !lastname || !phone || !email || !password){
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: "Please fill all fields"
+        //     })
+        // }
 
         //check if user exists
         const existingUser = await User.findOne({email});
@@ -62,12 +62,12 @@ export const loginUser = async(req, res) => {
         const {email, password } = req.body;
 
         //validate
-        if(!email || !password){
-            return res.status(400).json({
-                success: false,
-                message: "Please fill all fields"
-            })
-        }
+        // if(!email || !password){
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: "Please fill all fields"
+        //     })
+        // }
 
         const user = await User.findOne({email});
         if(!user){
