@@ -5,6 +5,7 @@ import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import orderRoutes from "./routes/orderRoutes.js";
 const app = express();
 
 // Configure environment
@@ -21,6 +22,7 @@ app.use(cookieParser());
 // Routes
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/products", productRoutes);
+app.use("/api/v1/order",orderRoutes)
 
 app.get("/", (req, res) => {
   res.send({
