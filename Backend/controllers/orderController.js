@@ -9,7 +9,6 @@ export const createOrder = async (req, res) => {
 
   try {
     const { orderItems } = req.body;
-    
     // Validation
     if (!orderItems || !Array.isArray(orderItems) || orderItems.length === 0) {
       await session.abortTransaction();
@@ -46,15 +45,23 @@ export const createOrder = async (req, res) => {
 
     // Process each order item
     for (const item of orderItems) {
-      // Find product with lock to handle concurrency (using session)
-      const product = await Product.findById(item.product).session(session);
+      // Find product by name or ID with lock to handle concurrency (using session)
+      let product;
+      
+      // Check if item.product is a valid ObjectId or a name
+      if (mongoose.Types.ObjectId.isValid(item.product)) {
+        product = await Product.findById(item.product).session(session);
+      } else {
+        // Search by product name
+        product = await Product.findOne({ name: item.product }).session(session);
+      }
 
       if (!product) {
         await session.abortTransaction();
         session.endSession();
         return res.status(404).json({
           success: false,
-          message: `Product with ID ${item.product} not found`,
+          message: `Product "${item.product}" not found`,
         });
       }
 
@@ -87,7 +94,7 @@ export const createOrder = async (req, res) => {
 
     // Create the order
     const order = new Order({
-      user: req.user._id,
+      user: req.user.userid,
       orderItems: processedOrderItems,
       totalAmount,
     });
