@@ -10,35 +10,35 @@ export const createOrder = async (req, res) => {
   try {
     const { orderItems } = req.body;
     // Validation
-    if (!orderItems || !Array.isArray(orderItems) || orderItems.length === 0) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(400).json({
-        success: false,
-        message: "Order items are required and must be a non-empty array",
-      });
-    }
+    // if (!orderItems || !Array.isArray(orderItems) || orderItems.length === 0) {
+    //   await session.abortTransaction();
+    //   session.endSession();
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Order items are required and must be a non-empty array",
+    //   });
+    // }
 
     // Validate each order item
-    for (const item of orderItems) {
-      if (!item.product || !item.quantity) {
-        await session.abortTransaction();
-        session.endSession();
-        return res.status(400).json({
-          success: false,
-          message: "Each order item must have a product ID and quantity",
-        });
-      }
+    // for (const item of orderItems) {
+    //   if (!item.product || !item.quantity) {
+    //     await session.abortTransaction();
+    //     session.endSession();
+    //     return res.status(400).json({
+    //       success: false,
+    //       message: "Each order item must have a product ID and quantity",
+    //     });
+    //   }
 
-      if (item.quantity <= 0) {
-        await session.abortTransaction();
-        session.endSession();
-        return res.status(400).json({
-          success: false,
-          message: "Quantity must be greater than 0",
-        });
-      }
-    }
+    //   if (item.quantity <= 0) {
+    //     await session.abortTransaction();
+    //     session.endSession();
+    //     return res.status(400).json({
+    //       success: false,
+    //       message: "Quantity must be greater than 0",
+    //     });
+    //   }
+    // }
 
     let totalAmount = 0;
     const processedOrderItems = [];

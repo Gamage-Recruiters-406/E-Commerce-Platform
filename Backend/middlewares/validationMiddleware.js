@@ -1,4 +1,4 @@
-// Helper function to validate email
+// Helper function 
 const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -83,6 +83,35 @@ export const validateProduct = (req, res, next) => {
     const allowedCategories = ["Electronics", "Fashion", "Sports", "Home", "Toys"];
     if (!allowedCategories.includes(category)) {
         return res.status(400).send({ success: false, error: `Invalid category. Allowed categories are: ${allowedCategories.join(", ")}` });
+    }
+
+    next();
+};
+
+// Validate Order
+export const validateOrder = (req, res, next) => {
+    const { orderItems } = req.body;
+
+    if (!orderItems || !Array.isArray(orderItems) || orderItems.length === 0) {
+        return res.status(400).json({
+            success: false,
+            message: "Order items are required and must be a non-empty array",
+        });
+    }
+
+    for (const item of orderItems) {
+        if (!item.product || !item.quantity) {
+            return res.status(400).json({
+                success: false,
+                message: "Each order item must have a product ID and quantity",
+            });
+        }
+        if (item.quantity <= 0) {
+            return res.status(400).json({
+                success: false,
+                message: "Quantity must be greater than 0",
+            });
+        }
     }
 
     next();
